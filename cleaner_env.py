@@ -18,12 +18,14 @@ Gitlab
 
 if "folder" in os.environ:
     pass
+
 else:
     print(message)
     sys.exit(0)
 
 if "age" in os.environ:
     pass
+
 else:
     print(message)
     sys.exit(0)
@@ -38,22 +40,33 @@ if platform.system() == 'Windows':
     for path in cleanpath:
         pathpart = path.split("\\")
         truepath = []
+
         for part in pathpart:
             truepath.append(part.replace(r"'",r""))
+
         winpath = str('\\'.join(truepath))
-        os.chdir(winpath)
 
-        for root,directories,files in os.walk(winpath, topdown=False):
-            for name in files:
-                t = os.stat(os.path.join(root, name))[8] #st_mtime
-                filetime = float(t) - today.timestamp()
+        if os.path.isdir(winpath):
+            os.chdir(winpath)
 
-                if filetime <= clean_age:
-                    print("Old - ", os.path.join(root, name))
-                    os.remove(os.path.join(root, name))
-                else:
-                    print("Less - ", os.path.join(root, name))
+            for root, directories, files in os.walk(winpath, topdown=False):
+
+                for name in files:
+                    t = os.stat(os.path.join(root, name))[8]  # st_mtime
+                    filetime = float(t) - today.timestamp()
+
+                    if filetime <= clean_age:
+                        print("Old - ", os.path.join(root, name))
+                        os.remove(os.path.join(root, name))
+
+                    else:
+                        print("Less - ", os.path.join(root, name))
+
+        else:
+            print("The path is not exist:", winpath)
+
     sys.exit(0)
+
 else:
     print('We need linux version.')
     sys.exit(1)
