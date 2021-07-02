@@ -57,7 +57,13 @@ if platform.system() == 'Windows':
 
                     if filetime <= clean_age:
                         print("Old - ", os.path.join(root, name))
-                        os.remove(os.path.join(root, name))
+
+                        try:
+                            os.remove(os.path.join(root, name))
+
+                        except PermissionError:
+                            print("Make sure that you have access to specified path:", os.path.join(root, name))
+                            continue
 
                     else:
                         print("Less - ", os.path.join(root, name))
