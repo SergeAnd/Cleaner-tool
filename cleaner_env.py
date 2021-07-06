@@ -65,6 +65,10 @@ if platform.system() == 'Windows':
                             print("Make sure that you have access to specified path:", os.path.join(root, name))
                             continue
 
+                        except FileNotFoundError:
+                            print("Sorry, file does not exist:", os.path.join(root, name))
+                            continue
+
                     else:
                         print("Less - ", os.path.join(root, name))
 
