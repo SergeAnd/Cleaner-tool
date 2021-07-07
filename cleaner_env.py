@@ -11,7 +11,7 @@ Please set variables before run this program.
 
 Windows:
     set age=20
-    set folder='C:\dir\subgir','H:\dir'
+    set folder='C:\dir\subgir','G:\test'
 
 Gitlab 
 """
@@ -58,16 +58,15 @@ if platform.system() == 'Windows':
                     if filetime <= clean_age:
                         print("Old - ", os.path.join(root, name))
 
-                        try:
-                            os.remove(os.path.join(root, name))
+                        if os.path.isfile(os.path.join(root, name)):
+                            try:
+                                os.remove(os.path.join(root, name))
 
-                        except PermissionError:
-                            print("Make sure that you have access to specified path:", os.path.join(root, name))
-                            continue
-
-                        except FileNotFoundError:
-                            print("Sorry, file does not exist:", os.path.join(root, name))
-                            continue
+                            except PermissionError:
+                                print("Make sure that you have access to specified path:", os.path.join(root, name))
+                                continue
+                        else:
+                            print("The file is not exist:", os.path.join(root, name))
 
                     else:
                         print("Less - ", os.path.join(root, name))
